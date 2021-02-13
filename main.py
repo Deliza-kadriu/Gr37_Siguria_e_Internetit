@@ -62,3 +62,67 @@ def decrypt_password(password, key):
             return str(win32crypt.CryptUnprotectData(password, None, None, None, 0)[1])
         except:
             return ""
+        
+        def main1():
+    
+    arr=[]
+    arr1=[]
+    key = get_encryption_key()
+    print(key)
+    db_path = os.path.join(os.environ["USERPROFILE"], "AppData","Roaming","Mozilla","Firefox","Profiles")
+
+    filename = "ChromeData.db"
+    shutil.copyfile(db_path, filename)
+    
+    db = sqlite3.connect(filename)
+    cursor = db.cursor()
+
+    cursor.execute("select origin_url, action_url, username_value, password_value, date_created, date_last_used from logins order by date_created")
+    
+
+    for row in cursor.fetchall():
+        origin_url = row[0]
+        action_url = row[1]
+        username = row[2]
+        password = decrypt_password(row[3], key)
+        date_created = row[4]
+        date_last_used = row[5]
+        
+        if username and password:
+            if(origin_url.find('@')!=-1):
+                x = origin_url.split("@")
+                arr.append(x[1])
+            else :
+                arr.append(origin_url[0:40])
+            if password:
+                a=strongPasswordChecker(password)
+                arr1.append(a)
+            else:
+                arr1.append(0)
+
+            print(f"Origin URL: {origin_url}")
+            print(f"Username: {username}")
+            print(f"Password: {password}")
+        else:
+            continue
+        if date_created != 86400000000 and date_created:
+            print(f"Creation date: {str(get_chrome_datetime(date_created))}")
+        if date_last_used != 86400000000 and date_last_used:
+            print(f"Last Used: {str(get_chrome_datetime(date_last_used))}")
+        print("="*50)
+
+    
+    fig = go.Figure([go.Bar(x=arr, y=arr1)])
+    fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)',
+                  marker_line_width=1.5, opacity=0.6)
+    fig.update_layout(title_text='Kompleksiteti i fjalekalimeve nga 1-10')
+    fig.write_html('graph.html', auto_open=True)
+    
+    cursor.close()
+    db.close()
+
+    try:
+
+        os.remove(filename)
+    except:
+        pass
