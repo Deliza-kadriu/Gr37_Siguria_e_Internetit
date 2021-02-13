@@ -1,4 +1,3 @@
-# Gr37_Siguria_e_Internetit
 # Siguria ne Internet  
 ### Faza e trete e projektit: Leximi i Fjalekalimeve
 
