@@ -63,7 +63,7 @@ def decrypt_password(password, key):
         except:
             return ""
         
-        def main1():
+def main1():
     
     arr=[]
     arr1=[]
@@ -127,4 +127,18 @@ def decrypt_password(password, key):
     except:
         pass
     
+
+def main():
+    window = Tk()
+    window.title("Detyra e 5 : Leximi i fjalekalimeve nga browseri")
+    window.geometry("450x350")
+    window['background'] = 'white'
+    lbl = Label(window, text="Shtyp butonin per te pare fjalekalimet e ruajtura !" ,background = "white", font=("Arial Bold", 12)).place(x=20,y=50)
+   
+
+    button = Button(window, text='Chrome Passwords',background = "#66CDAA",activebackground = "#66CDAA",border=0.5, width=15,
+    height=3, command=main1).place(x=160, y=100)
     
+    window.mainloop()
+if __name__ == "__main__":
+    main()
